@@ -3,10 +3,13 @@ layout: post
 title: "Technologies used in this blog"
 ---
 
+Well. Finally got around to putting this website together. 
+
 To put this site together I used:
 * github pages
-I made a new project with the name anrei0000.github.io for which I enabled github pages.
-* 
+I made a new project with the name anrei0000.github.io for which I enabled github pages which in turn uses [Jekyll](https://jekyllrb.com/) to generate static site content.
+* travis-ci
+I connected [Travis-ci](https://travis-ci.org/anrei0000/anrei0000.github.io/builds) to my github account to track my deployments. After this I also found out about [github's deployments](https://github.com/anrei0000/anrei0000.github.io/deployments) so I guess maybe I can use both.
+* [Liquid](https://shopify.github.io/liquid/) is the templating engine used by Jekyll. I am testing funtionality for this since I have only shortly viewed the docs for it.
 
-
-Well. Finally got around to putting this website together. Neat thing about it - powered by [Jekyll](http://jekyllrb.com) and I can use Markdown to author my posts. It actually is a lot easier than I thought it was going to be.
+This list will be updated, with technologies as well as comments.
