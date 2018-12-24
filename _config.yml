@@ -1,1 +1,4 @@
+# SITE CONFIGURATION
+baseurl: ""
+url: "https://ian-goode.github.io"
 theme: jekyll-theme-modernist
