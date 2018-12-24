@@ -1,4 +1,4 @@
 # SITE CONFIGURATION
 baseurl: ""
 url: "https://anrei0000.github.io"
-theme: jekyll-theme-modernist
+theme: minima
