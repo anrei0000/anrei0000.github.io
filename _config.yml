@@ -1,4 +1,6 @@
 # SITE CONFIGURATION
+name: "Ciuc's blog"
 baseurl: ""
 url: "https://anrei0000.github.io"
 theme: minima
+permalink: /blog/:year/:month/:day/:title
