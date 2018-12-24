@@ -1,3 +1,4 @@
+# day 24.12 cu Laura
 # day 24.12
 started writing.md
 started sublime guide https://bitbucket.org/anrei0000/windows/src/master/config/config_sublime.md
