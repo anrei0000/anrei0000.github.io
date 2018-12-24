@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Ciuc, Launches Site"
+title: "Ciuc launches site"
 date: 2018-12-24
 ---
 
