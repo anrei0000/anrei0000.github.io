@@ -13,7 +13,7 @@ Here's this week's top 5 pick in the order I found them:
 - [Nikita Voloboev](https://twitter.com/nikitavoloboev) wrote [Everything I know](https://wiki.nikitavoloboev.xyz/) and my mind is blown. I've been working on a personal backup of my mind but this is next level :) His notes grew into his Git Book but he doesn't stop there. The guy [automates his tasks](https://wiki.nikitavoloboev.xyz/macos/macos-apps/2do), [wrote an Alfred workflow](https://medium.com/@nikitavoloboev/writing-alfred-workflows-in-go-2a44f62dc432) which he uses himself, and basically tries to offload information into processes with the help of IT. Loved it!
 
 Also my fun problems solved for the week:
-- Error starting userland proxy: mkdir /port/tcp:0.0.0.0:8000:tcp:172.30.0.3:80: input/output error
+- `Error starting userland proxy: mkdir /port/tcp:0.0.0.0:8000:tcp:172.30.0.3:80: input/output error`
 The final fix is to [disable "fast startup" in power settings](https://stackoverflow.com/a/47818614). The issue was that a windows update enables a fast startup feature which misbehaves with docker. So my containers wouldn't start after the laptop wakes from sleep. Yuck.
 - How to connect an IDE to my docker DB instance
 Since I'm learning about docker and how to use it properly I'm still having issues with really simple stuff. I don't want to use phpmyadmin since I really enjoy the productivity boost from DataGrip. So all I had to fix was to add port forwarding to my db service in the Dockerfile then connect using `localhost` and the new port.
