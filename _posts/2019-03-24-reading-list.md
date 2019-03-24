@@ -3,7 +3,7 @@ layout: post
 title: "Weekly knowledge dose"
 date: 2019-03-24
 ---
-Hello and welcome to my weekly archive of applied knowledge I loved going through. 
+Hello and welcome to my weekly archive of applied knowledge I loved going through this past week! 
 
 Here's this week's top 5 pick in the order I found them:
 - A fun technical read! [Chris Wellons on nullprogram.com](https://nullprogram.com/blog/2019/03/22/) wrote [Endlessh](https://github.com/skeeto/endlessh) a tool for capturing your port sniffing bots for a measured 1378 clients up to 20 hours. 
