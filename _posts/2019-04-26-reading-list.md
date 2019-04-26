@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Top5 knowledge dose - easter version"
+title: "Top5 knowledge dose - Easter version"
 date: 2019-04-26
 ---
 Hello and welcome to my archive of applied knowledge I enjoyed lately!
