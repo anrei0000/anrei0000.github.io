@@ -33,6 +33,9 @@ ul.social-network li {
 .social-network a.icoPatreon:hover {
     background-color:#e85b46;
 }
+.social-network a.icoMail:hover {
+    background-color:#bf3b2d;
+}
 .social-network a.icoRss:hover i, .social-network a.icoFacebook:hover i, .social-network a.icoTwitter:hover i,
 .social-network a.icoGoogle:hover i, .social-network a.icoVimeo:hover i, .social-network a.icoLinkedin:hover i {
     color:#fff;
