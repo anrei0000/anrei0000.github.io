@@ -5,10 +5,14 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-141373699-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
         gtag('js', new Date());
 
-        gtag('config', 'UA-141373699-1', { 'allow_ad_personalization_signals': false , 'anonymize_ip': true});
+        gtag('config', 'UA-141373699-1', {'allow_ad_personalization_signals': false, 'anonymize_ip': true});
     </script>
 
     <title>{{ page.title }}</title>
@@ -22,8 +26,8 @@
 <nav>
     <ul>
         <li><a href="/">Home</a></li>
-<!--        <li><a href="/about">About</a></li>-->
-         <li><a href="/cv">CV</a></li>
+        <!--        <li><a href="/about">About</a></li>-->
+        <li><a href="/cv">CV</a></li>
         <!-- <li><a href="/blog">Blog</a></li> -->
     </ul>
 </nav>
@@ -31,18 +35,28 @@
 {{ content }}
 
 <footer>
-<!--    <div class="container">-->
-<!--        <div class="row">-->
-<!--            <h4>Please share if you liked</h4>-->
-<!--            <div>-->
-<!--                <ul class="social-network social-circle">-->
-<!--                    <li><a href="#" class="icoFacebook" title="Facebook"><i class="fa fa-facebook"></i></a></li>-->
-<!--                    <li><a href="#" class="icoTwitter" title="Twitter"><i class="fa fa-twitter"></i></a></li>-->
-<!--                    <li><a href="#" class="icoGoogle" title="Google +"><i class="fa fa-google-plus"></i></a></li>-->
-<!--                </ul>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
+    <!--    <div class="container">-->
+    <!--        <div class="row">-->
+    <!--            <h4>Please share if you liked</h4>-->
+    <!--            <div>-->
+    <!--                <ul class="social-network social-circle">-->
+    <!--                    <li><a href="#" class="icoFacebook" title="Facebook"><i class="fa fa-facebook"></i></a></li>-->
+    <!--                    <li><a href="#" class="icoTwitter" title="Twitter"><i class="fa fa-twitter"></i></a></li>-->
+    <!--                    <li><a href="#" class="icoGoogle" title="Google +"><i class="fa fa-google-plus"></i></a></li>-->
+    <!--                </ul>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <div class="container">
+        <div class="row">
+            <h4>You may support my work</h4>
+            <div>
+                <ul class="social-network social-circle">
+                    <li><a target="_blank" href="https://www.patreon.com/DanTheLion"><i class="fa patreon"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </footer>
 </body>
 
