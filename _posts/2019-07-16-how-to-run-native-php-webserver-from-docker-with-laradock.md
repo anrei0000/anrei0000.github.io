@@ -17,6 +17,7 @@ First here is the architecture:
 ```$ docker-compose up -d nginx mysql phpmyadmin redis workspace```
 I actually have this in my `.bash_profile` as a separate command. This allows me to have a running environment for a basic laravel install.
 * new project setup
+
 ```
 # ssh into laradock workspace
 $ winpty docker-compose exec workspace bash
@@ -30,6 +31,7 @@ $ cd /var/www && laravel new project
 ```
 
 The fun was to make things working without nginx, and here is what actually was required for getting things working:
+
 ```
 # edit laradock/docker-compose.yml and add port forwarding
 	ports: 
@@ -41,6 +43,7 @@ $ cd /var/www/project/public && php -S 0.0.0.0:8080
 That's it :)
 
 For testing I did:
+
 ```
 # check the site is reachable
 $ curl localhost:8080
