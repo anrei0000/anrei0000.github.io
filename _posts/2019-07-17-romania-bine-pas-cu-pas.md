@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Lista - ce sa facem ca grup ca sa fie bine-n tara ?"
+title: "Romania bine - pas cu pas"
 date: 2019-07-17
 ---
 
@@ -32,14 +32,14 @@ E greu bolovanul pe care-l duci. Ia cate o pauza pentru tine, pentru cei la care
 Nu-i nevoie sa alergi, sa faci aikido, sa mergi la sala sau la munte (desi toate ajuta enorm). Incepe cu primul pas cand cobori din mijlocul de transport. Doar indreapta-ti spatele si mergi in continuare.
 
 # Contribuie
-Ajuta-ma sa vad mai multi oameni zambind, mai putine gunoaie pe strada si oameni centrati cu ei insisi.  
+Ajuta-ma sa vad mai multi oameni zambind, mai putine gunoaie pe strada si oameni centrati cu ei insisi.
 
 * Pune-ti punctul tau pe lista
 O singura contributie de la fiecare din noi e tot ce e nevoie. Suntem destui sa facem destule.
 
 Proiectul asta e open source deci oricine poate contribui. 
 
-Daca vrei sa inveti despre asta scrie-mi si programam o discutie. Daca nu vrei sa inveti despre asta scrie-mi ce anume ai vrea sa adaug in lista.
+Daca vrei sa inveti despre asta scrie-mi si programam o discutie. Daca nu vrei sa inveti despre asta scrie-mi ce ti-ar placea sa vezi in lista.
 
 [Detaliile de contact sunt aici](/../cv/index.html)
 
