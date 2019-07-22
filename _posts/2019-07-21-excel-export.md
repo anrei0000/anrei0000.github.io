@@ -124,4 +124,4 @@ PS: Things I left out above:
 1	Andrei	ciuc@ciuc.ro		2019-07-21 19:42:24	2019-07-21 19:42:24	
 ```
 * future action might include putting up the project where you can check it out
-* testing the <a href="{{site.github.repository_url}}/edit/master/{{page.path}}">Edit this page</a>
+* testing the <a target="_blank" href="{{site.github.repository_url}}/edit/master/{{page.path}}">Edit this page</a>
