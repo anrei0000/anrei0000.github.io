@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+  jekyll:
+    image: bretfisher/jekyll-serve
+    volumes:
+      - ../anrei0000.github.io/:/site
+    ports:
+      - '8081:4000'
