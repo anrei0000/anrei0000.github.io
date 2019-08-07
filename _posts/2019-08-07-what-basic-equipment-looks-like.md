@@ -71,7 +71,7 @@ dinner: hopefully meat, bread, potatoes over the fire
 
 * backpack - [Simond](https://www.simond.com/jorasses-backpack-40-l-id_8241621)
 
-All the above will fit in a 40L pack with spare room. The link is the closest match I could find to what I have.
+All the above will fit in a 40L pack with spare room. The link is the closest match I could find to what I have. Mine also has a useful zipper on the side, love that.
 
 
 # Day 2
@@ -99,5 +99,7 @@ I will usually think twice about bringing this, then bring it anyway. Ternua hav
 
 # Final thoughts
 * I have special mountain gear which I can tear, stain, wear extensively, wear broken, know multiple ways to wear. My gear helps bring a huge freedom benefit to my mind.
-* Function over form; reuse recycle
+* My checklist is usually ordered from low (boots) to high (hat)
+* Pay attention to how you pack your gear and what you need on top (rain jacket, water, fleece) and what you need on bottom (night gear).
+* Function over form; reuse and recycle
 * Enjoy nature, sunny trails!
