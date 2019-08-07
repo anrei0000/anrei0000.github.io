@@ -8,6 +8,8 @@ Yuhu, so you want to take a short trekking trip! And you never went on one befor
 
 About your 2 day trip in Romanian summer: travel from Bucharest to the mountains; light trek first day; sleeping in tent; light trek second day; travel from the mountains back to Bucharest.
 
+Here's what I will bring on a trip like this.
+
 # Day 1
 My checklist for the first day applies also if I would just do a same-day return trip.
 
@@ -35,7 +37,7 @@ Fast dry tshirt, the kind you use in the gym, I used cotton for years so it work
 
 I use a thin jacket which is waterproof and breathable, from Milo. I used rain coats (the ones long to the knees from decathlon) instead and they do the job as well. pro tips: have armpit zipper for heat control, have an adjustable hood which you can wear it and still see. 	
 
-* long sleeve merino tshirt
+* long sleeve merino shirt
 
 I will bring a thin merino wool long sleeve blouse. I can use this in daytime walking to prevent sunburn - but usually don't cos it's still hot; helps with dusk-nighttime chill plus it's super cosy.
 
@@ -83,9 +85,9 @@ We have an old 3 person dome tent which has seen better days but it works. At so
 
 Has served me great and is super lightweight. Also, my body takes cold better than heat, I've also used this in the winter time... with a _lot_ of extra layers and some shivering :)) 
 
-* fleece jacket
+* fleece jacket - [Mammut](https://www.amazon.co.uk/Mammut-Phase-Mens-Jacket-blue/dp/B00XCZUSRU/ref=sr_1_58?qid=1565202011&refinements=p_89%3AMammut&s=camping-hiking&sr=1-58&th=1)
 
-My Mammut fleece is looking just a bit worn but still awesome even after about 3 years of constant wear. Closest [match](https://www.amazon.co.uk/Mammut-Phase-Mens-Jacket-blue/dp/B00XCZUSRU/ref=sr_1_58?qid=1565202011&refinements=p_89%3AMammut&s=camping-hiking&sr=1-58&th=1).
+My Mammut fleece is looking just a bit worn but still awesome even after about 3 years of constant wear.
 
 * fleece pants
 
