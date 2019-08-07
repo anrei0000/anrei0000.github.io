@@ -23,7 +23,7 @@ I use Salomon and my feet are happy 'cos they fit my feet really well. Your foot
 
 * underwear x2
 
-2 pairs of synthetic stretchy boxers. 'cos they don't break and keep me happy. cotton works as well
+2 pairs of synthetic stretchy boxers. 'cos they don't break and keep me happy. cotton works as well. Also useful if I meet a bear.
 
 * pants
 
