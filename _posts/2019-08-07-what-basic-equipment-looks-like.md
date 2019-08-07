@@ -51,7 +51,7 @@ knife, headlamp, external battery, phone charger
 
 * health kit / emergency kit
 
-toothbrush, paste, soap, toilet paper, wet wipes, blister patches, crayon, paper, backup lighter, cotton wad, needle, thread, elastic wrap for sprains, sunscreen, medicinal alcohol or an iodine solution
+toothbrush, paste, soap, toilet paper, wet wipes, blister patches, crayon, paper, backup lighter, cotton wad, needle, thread, elastic wrap for sprains, sunscreen, medicinal alcohol or an iodine solution, whistle
 
 * water
 
@@ -73,6 +73,9 @@ dinner: hopefully meat, bread, potatoes over the fire
 
 All the above will fit in a 40L pack with spare room. The link is the closest match I could find to what I have. Mine also has a useful zipper on the side, love that.
 
+* large dollop of happy thoughts
+
+Can't say where I get these from, I like to think they just come along by themselves.
 
 # Day 2
 Day 1 items plus some more, according to weather.
