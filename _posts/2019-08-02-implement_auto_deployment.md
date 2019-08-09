@@ -4,6 +4,26 @@ title: "Auto-deployment from Bitbucket to AWS"
 date: 2019-08-02
 ---
 
+TL;DR I tell you the story of how I got a working CI/CD with a Laravel project, Bitbucket and AWS.
+##
+
+Overview
+
+* [Intro](#intro)
+* [Create AWS user](#create-aws-user)
+* [Create a role](#create-a-role)
+* [Create an S3 bucket](#create-an-s3-bucket)
+* [Update my EC2 instance](#update-my-ec2-instance)
+* [Install CodeDeploy on Ubuntu 16.04](#install-codedeploy-on-ubuntu-1604)
+* [(just in case) Uninstall CodeDeploy](#just-in-case-uninstall-codedeploy)
+* [Setup AWS CodeDeploy](#setup-aws-codedeploy)
+* [Setup bitbucket environment variables](#setup-bitbucket-environment-variables)
+* [Build the pipeline](#build-the-pipeline)
+* [Debug locally](#debug-locally)
+* [Deploy to staging](#deploy-to-staging)
+* [More reading](#more-reading)
+
+## Intro
 Here is my work in progress at doing CI. 
 I have a brand new project called `hiring_books` which deserves its own auto install to my cloud.
 
@@ -307,7 +327,7 @@ Since this is turning out to be such a long thing, I feel that I didn't give eno
 
 Lots of issues appear since I'm not just using new stuff but reusing (like my staging machine). This is what actually happens IRL. You don't always get to `do-release-update`, instead you get to
 
-* [Start to update php](https://www.rosehosting.com/blog/install-php-7-1-with-nginx-on-an-ubuntu-16-04-vps/)
+### [Start to update php](https://www.rosehosting.com/blog/install-php-7-1-with-nginx-on-an-ubuntu-16-04-vps/)
 
 ```
 sudo add-apt-repository ppa:ondrej/nginx-mainline
@@ -320,12 +340,138 @@ sudo apt-get install systemd
 
 Take a moment to reconsider life choices ... decide to `do-release-upgrade` up to ubuntu `16.04` then
 
-* [Install `php7.2`](https://thishosting.rocks/install-php-on-ubuntu/)
+### Install `php7.2` over ubuntu 16.04
 
+Guide used [is here](https://thishosting.rocks/install-php-on-ubuntu/)
+```
+sudo su
+apt-get update && apt-get upgrade
+add-apt-repository ppa:ondrej/php
+apt-get update
+apt-get install php7.2
+php -v
+apt-get install php-pear php7.2-curl php7.2-dev php7.2-gd php7.2-mbstring php7.2-zip php7.2-mysql php7.2-xml
+```
 
+...Get all the way to [Configure webserver](#configure-webserver) to realize I missed installing `php-fpm` so...
+```
+apt-get install php7.2-fpm
+sudo service php7.2-fpm status # test it worked
+```
+* Error 9
+
+Rerun the deploy, get a new error. This time it's 
+```
+Script at specified location: scripts/start_application.sh run as user ubuntu failed with exit code 255
+```
+Problem was a wrong path in `start_application.sh`. 
+
+* Useful locations for debug.
+
+```
+/opt/codedeploy-agent/deployment-root/
+/var/log/aws/codedeploy-agent
+```
+
+### Setup the project
+
+I broke this up into small chunks for easy digestion.
+
+#### Configure `mysql`
+This is done once at the beginning, using this sql script
+    
+```
+CREATE DATABASE IF NOT EXISTS `books` COLLATE 'utf8_general_ci' ;
+CREATE USER 'books'@'localhost' IDENTIFIED WITH mysql_native_password BY '***';
+GRANT ALL ON `books`.* TO 'books'@'localhost' ;
+FLUSH PRIVILEGES ;
+```
+Then I test the connection locally `mysql -ubooks -p***`. 
+      
+Sidenote, I still remember the hours I spent thinking there was supposed to be an empty character between `-p` and the actual password.
+       
+#### Configure webserver
+
+* Create the file 
+
+`/etc/nginx/sites-available/www.books.lpgfmk.xyz` and make it look similar to this.
+
+```
+server {
+        listen 80 ;
+        listen [::]:80;
+
+        root /var/www/books/public;
+        index index.php index.html index.htm;
+        access_log /var/log/nginx/books-access.log;
+        error_log /var/log/nginx/books-error.log;
+
+        server_name books.lpgfmk.xyz;
+
+        location / {
+                try_files $uri $uri/ /index.php$is_args$args;
+        }
+
+        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+        location ~ \.php$ {
+                try_files $uri =404;
+                fastcgi_split_path_info ^(.+\.php)(/.+)$;
+                fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                fastcgi_index index.php;
+                include fastcgi_params;
+        }
+
+}
+
+}
+
+```
+
+* Enable the config and reset the server
+    
+```
+ln -s /etc/nginx/sites-available/www.books.lpgfmk.xyz /etc/nginx/sites-enabled/www.books.lpgfmk.xyz
+sudo service nginx configtest
+sudo service nginx reload
+```
+
+* Route53 config DNS 
+
+By adding the IP of the machine to the hosted zone. 
+
+* Test config
+
+By browsing to `books.domain.com` and expect errors from Laravel. We fix these next
+
+#### Configure `.env`
+This is done only once then not touched again. Variables here should not live in source control.
+* Copy the local `.env` to the remote
+* Setup permissions
+```
+cd /var/www/books
+sudo chown -R www-data: .               # webserver user should own the files
+sudo chmod -R 0777 storage              # these need extra access
+sudo chmod -R 0777 bootstrap/cache      # these need extra access
+```
+* set key `sudo php artisan key:generate`
+* set remaining variables
+* test everything works by going to `books.lpgfmk.xyz`
+
+### Test deployment
+#### From my local machine
+* Error
+
+`scripts/start_application.sh run as user www-data failed with exit code 1`
+
+Debug this by running the command from the remote machine.
+
+Actual error is `[2002] php_network_getaddresses: getaddrinfo failed:`
+
+The problem was a missing variable in `.env`.
 
 
 # More reading
 * _Next actions_:
 [The great CEO within](https://docs.google.com/document/d/1ZJZbv4J6FZ8Dnb0JuMhJxTnwl-dwqx5xl0s65DE3wO8/edit#heading=h.zdta3gwko2l) is a wonderful resource. You may read more about this in Chapter 3: Getting things done.
-* Github makes CI/CD free for public repos
+* [Github now supports CI/CD free for public repos](https://github.blog/2019-08-08-github-actions-now-supports-ci-cd/)
