@@ -5,9 +5,8 @@ date: 2019-08-02
 ---
 
 TL;DR I tell you the story of how I got a working CI/CD with a Laravel project, Bitbucket and AWS.
-##
 
-Overview
+# Overview
 
 * [Intro](#intro)
 * [Create AWS user](#create-aws-user)
@@ -23,7 +22,7 @@ Overview
 * [Deploy to staging](#deploy-to-staging)
 * [More reading](#more-reading)
 
-## Intro
+# Intro
 Here is my work in progress at doing CI. 
 I have a brand new project called `hiring_books` which deserves its own auto install to my cloud.
 
@@ -37,14 +36,14 @@ I also find [this tutorial](https://hackernoon.com/deploy-to-ec2-with-aws-codede
 
 I'm taking the usual route of following the tutorial until my work is done or I need a new tutorial.
 
-## Create AWS user
+# Create AWS user
 I create a programmatic access user. I download and store the credentials in one of my repos. 
 * Name: `bitbucket`
 
 _OnTheWay:_ Because I'm uploading secrets to git, I remember the [vault](https://www.hashicorp.com/products/vault/secrets-management) project, 
 start to download it then add it to my [_next actions_](#more-reading) list.
 
-## Create a role
+# Create a role
 * Type of trusted entity: `AWS Service`
 * Service that will use this role: `EC2 service`
 * Permissions: `AWSCodeDeployFullAccess`, `AmazonS3FullAccess`
@@ -71,12 +70,12 @@ Make sure the region matches what you deploy to.
 }
 ```
 
-## Create an S3 bucket
+# Create an S3 bucket
 * Name: `codedeploy-hiring-books`
 
 For the rest, just leave the settings as they are.
 
-## Update my EC2 instance
+# Update my EC2 instance
 
 I already have 2 EC2 instances set up (one for staging, one for prod). Only thing left to do is check the IAM role attached to it.
 I realize that I already had a role defined for my instance, so now I just update my existing role with what is described in [Create a role](#create-a-role). 
@@ -88,7 +87,7 @@ Since I haven't assigned an elastic IP this is expected. I remove the key from k
 _OnTheWay:_ In the mean time I am also updating to the latest `docker desktop version 2.1.0` and I can feel the anxious over what might break.
 ... Whew, all is well! Onwards.
 
-## Install CodeDeploy on Ubuntu 16.04
+# Install CodeDeploy on Ubuntu 16.04
 Following the [guide here](https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html) looks like this
 ```bash
 sudo apt-get install ruby2.0
@@ -106,7 +105,7 @@ After the above steps I check the install
 `sudo service codedeploy-agent status`
 and I get `The AWS CodeDeploy agent is running as PID 10465` which is good.
 
-## (just in case) Uninstall CodeDeploy
+# (just in case) Uninstall CodeDeploy
 ```
 sudo apt-get remove codedeploy-agent
 sudo apt-get purge codedeploy-agent
@@ -114,7 +113,7 @@ sudo rm -rf /opt/codedeploy-agent /var/log/aws/codedeploy-agent
 ``` 
 I did this because it seemed there was some weird caching going on.. or at least old files being used somehow.
 
-## Setup AWS CodeDeploy
+# Setup AWS CodeDeploy
 CodeDeploy > Getting Started > Create application
 
 * Application name: `books-library`
@@ -136,7 +135,7 @@ Aaand what do you know, I can't `Create deployment group` with this on. I'll jus
 
 Whoop whoop I get green.
 
-## Setup bitbucket environment variables
+# Setup bitbucket environment variables
 After some digging around I had to find out what these are [here](https://confluence.atlassian.com/bitbucket/variables-in-pipelines-794502608.html),
 so to sum up: click account image > bitbucket settings > account variables.
 And I set the following key - value pairs:
@@ -149,7 +148,7 @@ And I set the following key - value pairs:
 * `DEPLOYMENT_GROUP_NAME` - `DG1`
 * `S3_BUCKET` - `codedeploy-hiring-books`
 
-## Build the pipeline
+# Build the pipeline
 The main steps should be the following
 * Deploy to S3
 * Tell CodeDeploy a new revision is ready
@@ -189,7 +188,7 @@ I start debugging.
 
 I update my `bitbucket-pipelines.yml` file so that there are 5 steps instead of just 1. Didn't really help. Well... let's try and build the entire thing locally first so we can debug easily.
 
-## Debug locally
+# Debug locally
 
 * Create a docker container
 
@@ -268,8 +267,7 @@ function from the variables in `codedeploy_deploy.local.py`.
 
 These is how I reset the code deploy agent on the machine.
 ```
-sudo service codedeploy-agent stop
-sudo service codedeploy-agent start
+sudo service codedeploy-agent stop && sudo service codedeploy-agent start
 ```
 
 * Error 8
@@ -320,14 +318,14 @@ files:
 
 ... of course initially it wasn't obvious, since I was originally passing `source: /index.html`
 
-## Deploy to staging
+# Deploy to staging
 The code is now getting to the machine and I'm working on getting the env right:
 
 Since this is turning out to be such a long thing, I feel that I didn't give enough warning that I'm not doing a tutorial but more of a log of my processes as I go through the code. At this point, I started the post 6 days ago. 
 
 Lots of issues appear since I'm not just using new stuff but reusing (like my staging machine). This is what actually happens IRL. You don't always get to `do-release-update`, instead you get to
 
-### [Start to update php](https://www.rosehosting.com/blog/install-php-7-1-with-nginx-on-an-ubuntu-16-04-vps/)
+## [Start to update php](https://www.rosehosting.com/blog/install-php-7-1-with-nginx-on-an-ubuntu-16-04-vps/)
 
 ```
 sudo add-apt-repository ppa:ondrej/nginx-mainline
@@ -340,7 +338,7 @@ sudo apt-get install systemd
 
 Take a moment to reconsider life choices ... decide to `do-release-upgrade` up to ubuntu `16.04` then
 
-### Install `php7.2` over ubuntu 16.04
+## Install `php7.2` over ubuntu 16.04
 
 Guide used [is here](https://thishosting.rocks/install-php-on-ubuntu/)
 ```
@@ -373,11 +371,11 @@ Problem was a wrong path in `start_application.sh`.
 /var/log/aws/codedeploy-agent
 ```
 
-### Setup the project
+## Setup the project
 
 I broke this up into small chunks for easy digestion.
 
-#### Configure `mysql`
+### Configure `mysql`
 This is done once at the beginning, using this sql script
     
 ```
@@ -390,7 +388,7 @@ Then I test the connection locally `mysql -ubooks -p***`.
       
 Sidenote, I still remember the hours I spent thinking there was supposed to be an empty character between `-p` and the actual password.
        
-#### Configure webserver
+### Configure webserver
 
 * Create the file 
 
@@ -444,7 +442,7 @@ By adding the IP of the machine to the hosted zone.
 
 By browsing to `books.domain.com` and expect errors from Laravel. We fix these next
 
-#### Configure `.env`
+### Configure `.env`
 This is done only once then not touched again. Variables here should not live in source control.
 * Copy the local `.env` to the remote
 * Setup permissions
@@ -458,9 +456,11 @@ sudo chmod -R 0777 bootstrap/cache      # these need extra access
 * set remaining variables
 * test everything works by going to `books.lpgfmk.xyz`
 
-### Test deployment
-#### From my local machine
-* Error
+## Test deployment
+Getting ready for the final action but still keeping it cautious. Bitbucket only has 50 free minutes of deployment time a month you know...  
+
+### From my local machine
+* Error when deploying from my local container
 
 `scripts/start_application.sh run as user www-data failed with exit code 1`
 
@@ -470,8 +470,36 @@ Actual error is `[2002] php_network_getaddresses: getaddrinfo failed:`
 
 The problem was a missing variable in `.env`.
 
+* Error when deploying by push to master
+
+```
+InstanceAgent::Plugins::CodeDeployPlugin::CommandPoller: Error during perform: InstanceAgent::Plugins::CodeDeployPlugin::ScriptError - Script at specified location: scripts/install_dependencies.sh run as user www-data failed with exit code 1
+```
+
+* Error after removing the `install_dependencies` script  
+
+```
+"Script at specified location: scripts/start_server.sh run as user ubuntu failed with exit code 126\"
+```
+
+Tested out changes to file permissions from [here](https://laravel.com/docs/5.8/installation) and [here](https://stackoverflow.com/a/37266353/1486950). 
+
+Tested out removing the files and file contents from the scripts.
+
+Tested out doing 
+```
+sudo rm -rf /opt/codedeploy-agent/deployment-root/ff935564-c1b7-4758-9d29-acf5dd657e21/
+sudo service codedeploy-agent stop && sudo service codedeploy-agent start
+``` 
+
+
+### From gitlab
+
+# Conclusions
+This was fun! Also a bit painful.
 
 # More reading
 * _Next actions_:
 [The great CEO within](https://docs.google.com/document/d/1ZJZbv4J6FZ8Dnb0JuMhJxTnwl-dwqx5xl0s65DE3wO8/edit#heading=h.zdta3gwko2l) is a wonderful resource. You may read more about this in Chapter 3: Getting things done.
 * [Github now supports CI/CD free for public repos](https://github.blog/2019-08-08-github-actions-now-supports-ci-cd/)
+* [CodeDeploy ApplicationStop Lifecycle](https://github.com/aws/aws-codedeploy-agent/issues/80)
