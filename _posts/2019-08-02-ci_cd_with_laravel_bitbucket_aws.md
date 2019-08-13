@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "Auto-deployment from Bitbucket to AWS"
+title: "CI/CD with Laravel, Bitbucket and AWS"
 date: 2019-08-02
 ---
 
-TL;DR I tell you the story of how I got a working CI/CD with a Laravel project, Bitbucket and AWS.
+TL;DR I tell you the story of how I got a working Laravel project hosted on Bitbucket installed on an EC2 instance with a pipeline configured to build on pushes to master.
 
 # Overview
 
@@ -20,6 +20,7 @@ TL;DR I tell you the story of how I got a working CI/CD with a Laravel project, 
 * [Build the pipeline](#build-the-pipeline)
 * [Debug locally](#debug-locally)
 * [Deploy to staging](#deploy-to-staging)
+* [Test deployment](#test-deployment)
 * [More reading](#more-reading)
 
 # Intro
@@ -107,7 +108,7 @@ and I get `The AWS CodeDeploy agent is running as PID 10465` which is good.
 
 # (just in case) Uninstall CodeDeploy
 ```
-sudo apt-get remove codedeploy-agent
+sudo apt-get remove codedeploy-agent -y
 sudo apt-get purge codedeploy-agent
 sudo rm -rf /opt/codedeploy-agent /var/log/aws/codedeploy-agent
 ``` 
@@ -492,11 +493,50 @@ sudo rm -rf /opt/codedeploy-agent/deployment-root/ff935564-c1b7-4758-9d29-acf5dd
 sudo service codedeploy-agent stop && sudo service codedeploy-agent start
 ``` 
 
+Reread about [lifecycle events](https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.htmlhttps://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.html) and [error codes](https://docs.aws.amazon.com/codedeploy/latest/userguide/error-codes.html)
 
+Tested out loading files from the beginning from [this repo](https://bitbucket.org/awslabs/aws-codedeploy-bitbucket-pipelines-python/src/master/).
+
+Found a new error just above the previous one in the log:
+```
+The CodeDeploy agent did not find an AppSpec file within the unpacked revision directory at revision-relative path "appspec.yml"
+```
+http://www.yamllint.com/
+
+* Fixed locally by:
+    [Reinstall codedeploy](#just-in-case-uninstall-codedeploy)
+    ```
+    sudo cp /var/www/books/.env /var/www/
+    sudo rm -rf /var/www/books/*
+    ```
+    Run the deployment from git revision `95cab152209e6ac5ee268f76a569e73ffe570c69`
+    ```
+    sudo cp /var/www/.env /var/www/books
+    ```
+    
+    Rerun deployment with the exact same content as before: Deployment succeeded
+    
+    Rerun deployment and change the contents of a file: Deployment succeeded
+    
+    Reboot the machine and rerun deployment: Deployment succeeded
+    
+    Create a conflict in the file above (change it on the machine and locally) and rerun deployment: Deployment succeeded
+    
+    Set ownership then rerun deployment
+    ```
+    sudo chown -R www-data: /var/www/books
+    ```
+    : Deployment succeeded
+
+* Fix the deployment
+
+Change the `appspec.yml` file by adding the `AfterInstall` step: Deployment succeeded
+
+Change the `appspec.yml` file by updating the scripts names, commenting out `install_dependencies` and `stop_server` contents: Deployment Succeeded 
 ### From gitlab
 
 # Conclusions
-This was fun! Also a bit painful.
+This was fun! Also a bit painful... but super fun!
 
 # More reading
 * _Next actions_:
