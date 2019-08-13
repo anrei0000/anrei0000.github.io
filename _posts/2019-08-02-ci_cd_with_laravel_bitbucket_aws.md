@@ -530,13 +530,27 @@ http://www.yamllint.com/
 
 * Fix the deployment
 
+Issue is the `books.lpgfmk.xyz` site doesn't load, so I'm listing things I tried other than nginx related stuff.
+
 Change the `appspec.yml` file by adding the `AfterInstall` step: Deployment succeeded
 
-Change the `appspec.yml` file by updating the scripts names, commenting out `install_dependencies` and `stop_server` contents: Deployment Succeeded 
+Change the `appspec.yml` file by updating the scripts names, commenting out `install_dependencies` and `stop_server` contents: Deployment Succeeded
+
+Ran `composer update` on the machine.
+
+Rat `sudo systemctl status nginx` and got ` nginx.service: Failed to read PID from file /run/nginx.pid`. Fixed this by doing the [workaround](https://bugs.launchpad.net/ubuntu/+source/nginx/+bug/1581864):
+```
+sudo mkdir /etc/systemd/system/nginx.service.d
+printf "[Service]\nExecStartPost=/bin/sleep 0.1\n" | \
+sudo tee /etc/systemd/system/nginx.service.d/override.conf
+sudo systemctl daemon-reload
+sudo systemctl restart nginx
+```
+ 
 ### From gitlab
 
 # Conclusions
-This was fun! Also a bit painful... but super fun!
+This was fun, a bit painful and super insightful! Will definitely be using this for larger projects where this comes in handy.
 
 # More reading
 * _Next actions_:
