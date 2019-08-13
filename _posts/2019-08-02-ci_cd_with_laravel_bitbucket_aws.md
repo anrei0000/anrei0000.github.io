@@ -580,9 +580,14 @@ Push the project to master at `43601d65dc3db0c2b697933ce0408b23a21c608d`.
     sudo bash nodesource_setup.sh
     sudo apt-get install nodejs
     ```
+    This isn't really mandatory but nice to have for now.
 
 # Conclusions
 This was fun, a bit painful and super insightful! Will definitely be using this for larger projects where this comes in handy.
+
+Now, all that's left for me to do is grab a drink and marvel at all the typos above.
+
+Hope this helps you as well as it did me! Thanks so much for following along !
 
 # More reading
 * _Next actions_:
