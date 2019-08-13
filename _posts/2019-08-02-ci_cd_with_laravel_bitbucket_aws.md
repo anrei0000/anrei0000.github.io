@@ -4,7 +4,8 @@ title: "CI/CD with Laravel, Bitbucket and AWS"
 date: 2019-08-02
 ---
 
-TL;DR I tell you the story of how I got a working Laravel project hosted on Bitbucket installed on an EC2 instance with a pipeline configured to build on pushes to master.
+TL;DR I tell you the story of how I got [this demo Laravel project](https://www.books.lpgfmk.xyz) 
+hosted on [this Bitbucket repo](https://bitbucket.org/anrei0000/hiring_books/src/master/) installed on an EC2 instance with a pipeline configured to build on pushes to master.
 
 # Overview
 
@@ -21,6 +22,7 @@ TL;DR I tell you the story of how I got a working Laravel project hosted on Bitb
 * [Debug locally](#debug-locally)
 * [Deploy to staging](#deploy-to-staging)
 * [Test deployment](#test-deployment)
+* [Conclusions](#conclusions)
 * [More reading](#more-reading)
 
 # Intro
