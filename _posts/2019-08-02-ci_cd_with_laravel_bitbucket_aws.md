@@ -538,7 +538,7 @@ Change the `appspec.yml` file by updating the scripts names, commenting out `ins
 
 Ran `composer update` on the machine.
 
-Rat `sudo systemctl status nginx` and got ` nginx.service: Failed to read PID from file /run/nginx.pid`. Fixed this by doing the [workaround](https://bugs.launchpad.net/ubuntu/+source/nginx/+bug/1581864):
+Ran `sudo systemctl status nginx` and got ` nginx.service: Failed to read PID from file /run/nginx.pid`. Fixed this by doing the [workaround](https://bugs.launchpad.net/ubuntu/+source/nginx/+bug/1581864):
 ```
 sudo mkdir /etc/systemd/system/nginx.service.d
 printf "[Service]\nExecStartPost=/bin/sleep 0.1\n" | \
@@ -546,8 +546,12 @@ sudo tee /etc/systemd/system/nginx.service.d/override.conf
 sudo systemctl daemon-reload
 sudo systemctl restart nginx
 ```
- 
+
+Fixed by loading the site in mozilla browser... apparently there is some caching issue in chrome.
+
 ### From gitlab
+Push the project to master at `43601d65dc3db0c2b697933ce0408b23a21c608d`.
+
 
 # Conclusions
 This was fun, a bit painful and super insightful! Will definitely be using this for larger projects where this comes in handy.
