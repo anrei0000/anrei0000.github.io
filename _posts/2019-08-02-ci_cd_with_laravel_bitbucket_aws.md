@@ -552,6 +552,34 @@ Fixed by loading the site in mozilla browser... apparently there is some caching
 ### From gitlab
 Push the project to master at `43601d65dc3db0c2b697933ce0408b23a21c608d`.
 
+* Add the `composer install` command
+
+* Install certbot by [following this tutorial](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-16-04)
+    * Add A records for `books.lpgfmk.xyz` and `www.books.lpgfmk.xyz`
+    * Steps  
+    ```
+    sudo add-apt-repository ppa:certbot/certbot
+    sudo apt-get update
+    sudo apt-get install python-certbot-nginx
+    sudo systemctl reload nginx
+    sudo certbot --nginx -d books.lpgfmk.xyz -d www.books.lpgfmk.xyz
+    sudo certbot renew --dry-run
+    ```
+    
+    * _sidenote_ on how to delete an extra certbot site
+    ```
+    rm -rf /etc/letsencrypt/live/${DOMAIN}
+    rm /etc/letsencrypt/renewal/${DOMAIN}.conf
+    ```
+  
+* Install `npm`
+    * Steps
+    ```
+    cd ~
+    curl -sL https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh
+    sudo bash nodesource_setup.sh
+    sudo apt-get install nodejs
+    ```
 
 # Conclusions
 This was fun, a bit painful and super insightful! Will definitely be using this for larger projects where this comes in handy.
