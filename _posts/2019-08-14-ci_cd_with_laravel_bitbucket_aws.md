@@ -625,3 +625,4 @@ Hope this helps you as well as it did me! Thanks so much for following along and
 [The great CEO within](https://docs.google.com/document/d/1ZJZbv4J6FZ8Dnb0JuMhJxTnwl-dwqx5xl0s65DE3wO8/edit#heading=h.zdta3gwko2l) is a wonderful resource. You may read more about this in Chapter 3: Getting things done.
 * [Github now supports CI/CD free for public repos](https://github.blog/2019-08-08-github-actions-now-supports-ci-cd/)
 * [CodeDeploy ApplicationStop Lifecycle](https://github.com/aws/aws-codedeploy-agent/issues/80)
+* _By the way_, final error count >= 14
