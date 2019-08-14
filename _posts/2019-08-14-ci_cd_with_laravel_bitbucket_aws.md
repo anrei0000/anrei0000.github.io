@@ -610,6 +610,8 @@ Push the project to master at `43601d65dc3db0c2b697933ce0408b23a21c608d`.
 # Conclusions
 Oh the joy! It feels like forever since I wanted to implement this but just didn't have the time for it. Now that I also managed to put it in writing it's double the excitement since next time it'll be easier to implement again.
 
+In case you missed it, here is the [deployed project](https://books.lpgfmk.xyz) and here is the [bitbucket repo](https://bitbucket.org/anrei0000/hiring_books/src/master/) for this post.
+
 I had a lot of fun, pain and insight throughout this entire process. And will be definitely using this for larger projects where this comes in handy.
 
 Now, all that's left for me to do is grab a drink and marvel at all the typos above.
