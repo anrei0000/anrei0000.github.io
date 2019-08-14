@@ -616,9 +616,9 @@ I had a lot of fun, pain and insight throughout this entire process. And will be
 
 Now, all that's left for me to do is grab a drink and marvel at all the typos above.
 
-Hope this helps you as well as it did me! Thanks so much for following along and please come back often for new content. 
-
 **For more discussions on this topic I encourage you to join [my facebook group](https://www.facebook.com/groups/477320829754434/).**
+
+Hope this helps you as well as it did me! Thanks so much for following along and please come back often for new content. 
 
 # More reading
 * _Next actions_:
