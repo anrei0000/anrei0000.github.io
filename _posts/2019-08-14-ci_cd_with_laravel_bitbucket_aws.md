@@ -19,15 +19,16 @@ hosted on [this Bitbucket repo](https://bitbucket.org/anrei0000/hiring_books/src
 * [Setup AWS CodeDeploy](#setup-aws-codedeploy)
 * [Setup bitbucket environment variables](#setup-bitbucket-environment-variables)
 * [Build the pipeline](#build-the-pipeline)
-* [Debug locally](#debug-locally)
-* [Deploy to staging](#deploy-to-staging)
+* [Debug locally](#debug-locally) (Fun times here, `error` gets initialized)
+* [Deploy](#deploy-to-staging)
 * [Test deployment](#test-deployment)
 * [Conclusions](#conclusions)
 * [More reading](#more-reading)
 
 # Intro
-Here is my work in progress at doing CI. 
-I have a brand new project called `hiring_books` which deserves its own auto install to my cloud.
+Disclaimer: Here is my work in progress at doing CI. **Please** be aware that if you follow this you will get errors similar to what I'm describing. You will _likely_ also get the fixes working. This is an "as I go" description, only lightly reviewed at the end, expect things to break at first, then expect solutions that worked for me.
+
+That said, I have a brand new project called `hiring_books` which deserves its own auto install to my cloud.
 
 What I have is the following
 * AWS services
@@ -39,7 +40,7 @@ I also find [this tutorial](https://hackernoon.com/deploy-to-ec2-with-aws-codede
 
 I'm taking the usual route of following the tutorial until my work is done or I need a new tutorial.
 
-# Create AWS user
+# Create AWS user 
 I create a programmatic access user. I download and store the credentials in one of my repos. 
 * Name: `bitbucket`
 
@@ -114,7 +115,7 @@ sudo apt-get remove codedeploy-agent -y
 sudo apt-get purge codedeploy-agent
 sudo rm -rf /opt/codedeploy-agent /var/log/aws/codedeploy-agent
 ``` 
-I did this because it seemed there was some weird caching going on.. or at least old files being used somehow.
+I did this (several times :)) ) because it seemed there was some weird caching going on.. or at least old files being used somehow.
 
 # Setup AWS CodeDeploy
 CodeDeploy > Getting Started > Create application
@@ -123,7 +124,7 @@ CodeDeploy > Getting Started > Create application
 * Compute platform: `EC2/On-premises`
 * Deployment group: `books-deployment`
 * Deployment group name: `DG1`
-* Service role (we created this [here](#create-a-role)): `AWSCodeDeployRole`
+* [Service role](#create-a-role): `AWSCodeDeployRole`
 * Deployment type: `In-place`
 * Environment configuration: `Amazon EC2 instances`
 
@@ -139,8 +140,8 @@ Aaand what do you know, I can't `Create deployment group` with this on. I'll jus
 Whoop whoop I get green.
 
 # Setup bitbucket environment variables
-After some digging around I had to find out what these are [here](https://confluence.atlassian.com/bitbucket/variables-in-pipelines-794502608.html),
-so to sum up: click account image > bitbucket settings > account variables.
+After some digging around I had to find out [what these are](https://confluence.atlassian.com/bitbucket/variables-in-pipelines-794502608.html),
+so to sum up how to find them: click account image > bitbucket settings > account variables.
 And I set the following key - value pairs:
 
 * `AWS_ACCESS_KEY_ID` - `***`
@@ -169,9 +170,9 @@ From this repo I am copying files over to my `hiring_books` repo and tweaking th
 * `scripts/start_server`
 * `scripts/stop_server`
 
-`#rolsuphissleeves` 'n gets to work.
+#rolsuphissleeves 'n gets to work.
 
-I decided first I'll use a dummy `index.php` file which looks like this 
+I decided first I'll use a dummy `index.php` file which looks like this. (Later, I'm confused about this decision since it seems it was kinda forgotten...) 
 ```
 <?php echo "Hello World!";
 ```
@@ -203,19 +204,28 @@ docker run -it --rm --volume='//c//repo//books:/var/www/books' --workdir="//var/
 
 And I manage to open the container. In here I run `python codedeploy_deploy.local.py`.
 
-* Error 1
-
-Next error I'm currently debugging `botocore.exceptions.NoCredentialsError: Unable to locate credentials`. Found this [issue](https://github.com/spulec/moto/issues/1941) and from it changed the running command to 
+* Error = 0
 
 ```
-AWS_ACCESS_KEY_ID=dummy-access-key AWS_SECRET_ACCESS_KEY=dummy-access-key-secret AWS_DEFAULT_REGION=us-west-2 python codedeploy_deploy.local.py
+botocore.exceptions.NoCredentialsError: Unable to locate credentials
 ```
 
-* Error 2
+Found [this issue](https://github.com/spulec/moto/issues/1941) and from it changed the running command to 
 
-Running the above produces `An error occurred (InvalidAccessKeyId) when calling the PutObject operation: The AWS Access Key Id you provided does not exist in our records.` which makes me think the previous error is environment related and that I should pass the correct records for testing.
+```
+AWS_ACCESS_KEY_ID=dummy-access-key AWS_SECRET_ACCESS_KEY=dummy-access-key-secret AWS_DEFAULT_REGION=us-west-2 python ./scripts/local_deploy.sh
+```
 
-* Error 3
+* Error++
+
+Running the above produces 
+```
+An error occurred (InvalidAccessKeyId) when calling the PutObject operation: The AWS Access Key Id you provided does not exist in our records.
+``` 
+
+which makes me think the previous error is environment related and that I should pass the correct records for testing.
+
+* Error++
 
 I pass the correct credentials but now get
 
@@ -230,7 +240,7 @@ response = client.list_applications()
         print (response)
 ```
 
-* Error 4
+* Error++
 
 ...and got the response:
 ```
@@ -244,7 +254,7 @@ The IAM role arn:aws:iam::363374259631:role/AWSCodeDeployRole does not give you 
 
 I added `AmazonEC2FullAccess` permission to the role and retried.
 
-* Error 6
+* Error++
 
 This produces the error 
 ```
@@ -256,7 +266,7 @@ To debug this I ssh onto the EC2 machine where the codedeploy agent is running a
 tail -f /var/log/aws/codedeploy-agent/codedeploy-agent.log
 ```
 
-* Error 7
+* Error++
 
 This is now showing me the error
 ```
@@ -266,17 +276,16 @@ The specified key does not exist.
 Apparently I was passing the wrong bucket identifier and I had also removed the `str`
 function from the variables in `codedeploy_deploy.local.py`.
 
-* _ByTheWay_
+_By the way_, this is how I reset the code deploy agent on the machine.
 
-These is how I reset the code deploy agent on the machine.
 ```
 sudo service codedeploy-agent stop && sudo service codedeploy-agent start
 ```
 
-* Error 8
+* Error++
 
 This next one took a while for my brain to stop fuzzing.
-I was also tailing the log in my staging instance but no ideas. The error was
+I was also tailing the log in my staging instance but no ideas.
 ```
 put_host_command_complete(command_status:"Failed",diagnostics:{format:"JSON",payload:"{\"error_code\":5,\"script_name\":\"\",\"message\":\"Script at specified location: scripts/install_dependencies run as user root failed with exit code 126\",\"log\":\"\"}"}
 ```
@@ -286,7 +295,7 @@ Also the same root cause but different error
 ```
 Script at specified location: scripts/install_dependencies run as user root failed with exit code 126  
 ```
-What was going on is that I was changing configurations but not re-archiving the files.
+What was going on is that I was changing configurations but not re-archiving the files when deploying.
 
 * _Finally_
 
@@ -300,16 +309,18 @@ apt-get install -y zip vim # vim used locally for debug
 pip install boto3==1.3.0
 ```
 
-But then, to run a deploy I also need to rerun the `zip`. I was actually running this only randomnly and this made the debug process harder since errors were somehow inconsistent.
+But then, to run a deploy I also need to rerun the `zip`. I was actually running this only sometimes and this made the debug process harder since errors were somehow inconsistent.
 ```
 zip -r /tmp/artifact.zip *
 AWS_ACCESS_KEY_ID=*** AWS_SECRET_ACCESS_KEY=*** APPLICATION_NAME=books-library AWS_DEFAULT_REGION=us-west-2 DEPLOYMENT_CONFIG=CodeDeployDefault.AllAtOnce  DEPLOYMENT_GROUP_NAME=DG1 S3_BUCKET=codedeploy-hiring-books python codedeploy_deploy.py
 ```
 
 Funnily enough, I found the [guide here](https://medium.com/@team_62166/how-to-deploy-laravel-on-amazon-web-services-a-detailed-step-by-step-tutorial-2aff3f180a1f) 
-which helped with issues in the config files:
+which helped with the next problem.
 
-* Files were not getting where I wanted them to go.
+* Error++
+
+Files are not getting where I wanted them to go.
 
 This below is how it should be obviously !?
 
@@ -319,17 +330,18 @@ files:
     destination: /var/www/books
 ```
 
-... of course initially it wasn't obvious, since I was originally passing `source: /index.html`
+... of course initially it wasn't obvious, since I was originally passing `source: /index.html` and staring blankly at the `ls` output when I had no files over on the machine...
 
 # Deploy to staging
 The code is now getting to the machine and I'm working on getting the env right:
 
-Since this is turning out to be such a long thing, I feel that I didn't give enough warning that I'm not doing a tutorial but more of a log of my processes as I go through the code. At this point, I started the post 6 days ago. 
+Since this is turning out to be such a long thing, I feel the need to remind you this isn't a tutorial but more of a log of my processes as I go through the code. At this point, I started the post 6 days ago. 
 
-Lots of issues appear since I'm not just using new stuff but reusing (like my staging machine). This is what actually happens IRL. You don't always get to `do-release-update`, instead you get to
+Lots of issues appear since I'm not just using new stuff but reusing (like my staging machine). This is what actually happens IRL. You don't always get to `do-release-update`, instead:
 
-## [Start to update php](https://www.rosehosting.com/blog/install-php-7-1-with-nginx-on-an-ubuntu-16-04-vps/)
+## Start to update php
 
+Take a quick look [here](https://www.rosehosting.com/blog/install-php-7-1-with-nginx-on-an-ubuntu-16-04-vps/) and write some commands...
 ```
 sudo add-apt-repository ppa:ondrej/nginx-mainline
 sudo apt-get update -y
@@ -339,7 +351,7 @@ sudo apt-get install systemd
 ...
 ```
 
-Take a moment to reconsider life choices ... decide to `do-release-upgrade` up to ubuntu `16.04` then
+... take a moment to reconsider choices in general... decide to `do-release-upgrade` up to ubuntu `16.04` then ...
 
 ## Install `php7.2` over ubuntu 16.04
 
@@ -359,7 +371,7 @@ apt-get install php-pear php7.2-curl php7.2-dev php7.2-gd php7.2-mbstring php7.2
 apt-get install php7.2-fpm
 sudo service php7.2-fpm status # test it worked
 ```
-* Error 9
+* Error++
 
 Rerun the deploy, get a new error. This time it's 
 ```
@@ -367,7 +379,7 @@ Script at specified location: scripts/start_application.sh run as user ubuntu fa
 ```
 Problem was a wrong path in `start_application.sh`. 
 
-* Useful locations for debug.
+* Useful locations for debug/logs
 
 ```
 /opt/codedeploy-agent/deployment-root/
@@ -376,10 +388,10 @@ Problem was a wrong path in `start_application.sh`.
 
 ## Setup the project
 
-I broke this up into small chunks for easy digestion.
+I broke this up into small chunks for easy digestion. Get it, `cos this is food for thought ☜(˚▽˚)☞
 
-### Configure `mysql`
-This is done once at the beginning, using this sql script
+### Configure mysql
+This is done once at the beginning, using this sql script:
     
 ```
 CREATE DATABASE IF NOT EXISTS `books` COLLATE 'utf8_general_ci' ;
@@ -389,13 +401,13 @@ FLUSH PRIVILEGES ;
 ```
 Then I test the connection locally `mysql -ubooks -p***`. 
       
-Sidenote, I still remember the hours I spent thinking there was supposed to be an empty character between `-p` and the actual password.
+_By the way_, I still remember the hours I spent long ago, thinking there was supposed to be an empty character between `-p` and the actual password.
        
-### Configure webserver
+### Configure webserver 
 
-* Create the file 
+* Config file
 
-`/etc/nginx/sites-available/www.books.lpgfmk.xyz` and make it look similar to this.
+Create the file `/etc/nginx/sites-available/www.books.lpgfmk.xyz` and make it look similar to this.
 
 ```
 server {
@@ -439,11 +451,11 @@ sudo service nginx reload
 
 * Route53 config DNS 
 
-By adding the IP of the machine to the hosted zone. 
+Add the IP of the machine to a new A record for `books.lpgfmk.xyz`. Later in the [letsencrypt](#from-gitlab) section, I will add a second A record pointing to `www.books.lpgfmk.xyz`. 
 
 * Test config
 
-By browsing to `books.domain.com` and expect errors from Laravel. We fix these next
+Browse to `books.lpgfmk.xyz` and expect errors from Laravel. We fix these next
 
 ### Configure `.env`
 This is done only once then not touched again. Variables here should not live in source control.
@@ -455,31 +467,34 @@ sudo chown -R www-data: .               # webserver user should own the files
 sudo chmod -R 0777 storage              # these need extra access
 sudo chmod -R 0777 bootstrap/cache      # these need extra access
 ```
+_By the way_ I can't remember why I set the permissions to `0777`, anyway they don't stay like this since they're [overwritten at deploy time](https://bitbucket.org/anrei0000/hiring_books/src/1dbb9d6e9cd0ddd62b5084c4fe2e257d58ea0033/scripts/start_server#lines-12).
 * set key `sudo php artisan key:generate`
-* set remaining variables
+* set remaining variables... dunno which ones `¯\_(ツ)_/¯` try and get all of them
 * test everything works by going to `books.lpgfmk.xyz`
 
 ## Test deployment
 Getting ready for the final action but still keeping it cautious. Bitbucket only has 50 free minutes of deployment time a month you know...  
 
 ### From my local machine
-* Error when deploying from my local container
+* Error++
 
-`scripts/start_application.sh run as user www-data failed with exit code 1`
+```
+scripts/start_application.sh run as user www-data failed with exit code 1
+```
 
-Debug this by running the command from the remote machine.
+Debug this by running the commands in the file from the remote machine as well.
 
-Actual error is `[2002] php_network_getaddresses: getaddrinfo failed:`
+This way, surprise! actual error is `[2002] php_network_getaddresses: getaddrinfo failed:`
 
-The problem was a missing variable in `.env`.
+The problem was a missing variable in `.env`. Damned if I can remember all those variables (ಥ﹏ಥ)
 
-* Error when deploying by push to master
+* Error++ when deploying by push to master
 
 ```
 InstanceAgent::Plugins::CodeDeployPlugin::CommandPoller: Error during perform: InstanceAgent::Plugins::CodeDeployPlugin::ScriptError - Script at specified location: scripts/install_dependencies.sh run as user www-data failed with exit code 1
 ```
 
-* Error after removing the `install_dependencies` script  
+* Error++ after removing the `install_dependencies` script  
 
 ```
 "Script at specified location: scripts/start_server.sh run as user ubuntu failed with exit code 126\"
@@ -499,32 +514,35 @@ Reread about [lifecycle events](https://docs.aws.amazon.com/codedeploy/latest/us
 
 Tested out loading files from the beginning from [this repo](https://bitbucket.org/awslabs/aws-codedeploy-bitbucket-pipelines-python/src/master/).
 
-Found a new error just above the previous one in the log:
+Found a new error++ just above the previous one in the log:
 ```
 The CodeDeploy agent did not find an AppSpec file within the unpacked revision directory at revision-relative path "appspec.yml"
 ```
-http://www.yamllint.com/
+Tested the actual script on [http://www.yamllint.com/](http://www.yamllint.com/).
 
 * Fixed locally by:
-    [Reinstall codedeploy](#just-in-case-uninstall-codedeploy)
+
+    * [Reinstall codedeploy](#just-in-case-uninstall-codedeploy)
+    * 
     ```
     sudo cp /var/www/books/.env /var/www/
     sudo rm -rf /var/www/books/*
     ```
-    Run the deployment from git revision `95cab152209e6ac5ee268f76a569e73ffe570c69`
+    * Run the deployment from git revision `95cab152209e6ac5ee268f76a569e73ffe570c69`
+    * 
     ```
     sudo cp /var/www/.env /var/www/books
     ```
     
-    Rerun deployment with the exact same content as before: Deployment succeeded
+    * Rerun deployment with the exact same content as before: Deployment succeeded
     
-    Rerun deployment and change the contents of a file: Deployment succeeded
+    * Rerun deployment and change the contents of a file: Deployment succeeded
     
-    Reboot the machine and rerun deployment: Deployment succeeded
+    * Reboot the machine and rerun deployment: Deployment succeeded
     
-    Create a conflict in the file above (change it on the machine and locally) and rerun deployment: Deployment succeeded
+    * Create a conflict in the file above (change it on the machine and locally) and rerun deployment: Deployment succeeded
     
-    Set ownership then rerun deployment
+    * Set ownership then rerun deployment
     ```
     sudo chown -R www-data: /var/www/books
     ```
@@ -532,7 +550,7 @@ http://www.yamllint.com/
 
 * Fix the deployment
 
-Issue is the `books.lpgfmk.xyz` site doesn't load, so I'm listing things I tried other than nginx related stuff.
+Error++: the `books.lpgfmk.xyz` site doesn't load, so I'm listing things I tried other than nginx related stuff.
 
 Change the `appspec.yml` file by adding the `AfterInstall` step: Deployment succeeded
 
@@ -540,7 +558,12 @@ Change the `appspec.yml` file by updating the scripts names, commenting out `ins
 
 Ran `composer update` on the machine.
 
-Ran `sudo systemctl status nginx` and got ` nginx.service: Failed to read PID from file /run/nginx.pid`. Fixed this by doing the [workaround](https://bugs.launchpad.net/ubuntu/+source/nginx/+bug/1581864):
+Ran `sudo systemctl status nginx` and got 
+```
+nginx.service: Failed to read PID from file /run/nginx.pid
+```
+Fixed this by doing this [workaround](https://bugs.launchpad.net/ubuntu/+source/nginx/+bug/1581864):
+
 ```
 sudo mkdir /etc/systemd/system/nginx.service.d
 printf "[Service]\nExecStartPost=/bin/sleep 0.1\n" | \
@@ -549,12 +572,12 @@ sudo systemctl daemon-reload
 sudo systemctl restart nginx
 ```
 
-Fixed by loading the site in mozilla browser... apparently there is some caching issue in chrome.
+Fixed by loading the site in mozilla browser... apparently there is some caching issue in my local chrome which I'll just ignore for now.
 
 ### From gitlab
 Push the project to master at `43601d65dc3db0c2b697933ce0408b23a21c608d`.
 
-* Add the `composer install` command
+* Add the `composer install` command to deployment script.
 
 * Install certbot by [following this tutorial](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-16-04)
     * Add A records for `books.lpgfmk.xyz` and `www.books.lpgfmk.xyz`
@@ -568,7 +591,7 @@ Push the project to master at `43601d65dc3db0c2b697933ce0408b23a21c608d`.
     sudo certbot renew --dry-run
     ```
     
-    * _sidenote_ on how to delete an extra certbot site
+    * _By the way_ here's how to delete an extra certbot site
     ```
     rm -rf /etc/letsencrypt/live/${DOMAIN}
     rm /etc/letsencrypt/renewal/${DOMAIN}.conf
@@ -585,11 +608,15 @@ Push the project to master at `43601d65dc3db0c2b697933ce0408b23a21c608d`.
     This isn't really mandatory but nice to have for now.
 
 # Conclusions
-This was fun, a bit painful and super insightful! Will definitely be using this for larger projects where this comes in handy.
+Oh the joy! It feels like forever since I wanted to implement this but just didn't have the time for it. Now that I also managed to put it in writing it's double the excitement since next time it'll be easier to implement again.
+
+I had a lot of fun, pain and insight throughout this entire process. And will be definitely using this for larger projects where this comes in handy.
 
 Now, all that's left for me to do is grab a drink and marvel at all the typos above.
 
-Hope this helps you as well as it did me! Thanks so much for following along !
+Hope this helps you as well as it did me! Thanks so much for following along and please come back often for new content. 
+
+**For more discussions on this topic I encourage you to join [my facebook group](https://www.facebook.com/groups/477320829754434/).**
 
 # More reading
 * _Next actions_:
