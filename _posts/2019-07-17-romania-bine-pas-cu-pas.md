@@ -31,6 +31,12 @@ E greu bolovanul pe care-l duci. Ia cate o pauza pentru tine, pentru cei la care
 
 Nu-i nevoie sa alergi, sa faci aikido, sa mergi la sala sau la munte (desi toate ajuta enorm). Incepe cu primul pas cand cobori din mijlocul de transport. Doar indreapta-ti spatele si mergi in continuare.
 
+# Recicleaza
+"Mie mi-ar placea sa incepem si sa fim seriosi in reciclarea separata pe tipuri de ambalaje si deseuri"
+
+Pentru mine, primul pas aici este sa caut sa vad ce se face deja la noi. Keep you posted!
+
+
 # Contribuie
 Ajuta-ma sa vad mai multi oameni zambind, mai putine gunoaie pe strada si oameni centrati cu ei insisi.
 
