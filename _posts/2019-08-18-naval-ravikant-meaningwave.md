@@ -10,7 +10,8 @@ while now. Research took me to find out the term [meaningwave](https://en.wikipe
 coined I guess by [Akira the don](https://www.akirathedon.com/). The content in the album belongs 
 to [Naval Ravikant](https://about.me/naval). Am absolutely loving it!
 
-Some reading on [the knowledge podcast on Naval](https://fs.blog/wp-content/uploads/2017/02/Naval-Ravikant-TKP.pdf). 
+Some reading on [the knowledge podcast on Naval](https://fs.blog/wp-content/uploads/2017/02/Naval-Ravikant-TKP.pdf)
+and also the [yt recording with Tim Ferriss](https://www.youtube.com/watch?v=-7J-Gwc9pVg). 
 
 LOVED IT
 
