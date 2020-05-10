@@ -3,4 +3,4 @@
 # Local dev
 * checkout project
 * run `dc up -d`
-* access at `localhost:8081`
+* access at `anrei0000.local:8083`
