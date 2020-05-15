@@ -2,38 +2,48 @@
 <html>
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
-<!--     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-141373699-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
+    <!--     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-141373699-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
 
-        function gtag() {
-            dataLayer.push(arguments);
-        }
+            function gtag() {
+                dataLayer.push(arguments);
+            }
 
-        gtag('js', new Date());
+            gtag('js', new Date());
 
-        gtag('config', 'UA-141373699-1', {'allow_ad_personalization_signals': false, 'anonymize_ip': true});
-    </script>
- -->
+            gtag('config', 'UA-141373699-1', {'allow_ad_personalization_signals': false, 'anonymize_ip': true});
+        </script>
+     -->
     <title>{{ page.title }}</title>
     <link rel=icon href=/resources/anrei0000_logo.png>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.7/css/fork-awesome.min.css"
-          integrity="sha256-gsmEoJAws/Kd3CjuOQzLie5Q3yshhvmo7YNtBG7aaEY=" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.7/css/fork-awesome.min.css"
+          integrity="sha256-gsmEoJAws/Kd3CjuOQzLie5Q3yshhvmo7YNtBG7aaEY="
+          crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/main.css">
     <link rel="stylesheet" type="text/css" href="/css/social.css">
 </head>
 <body>
-<nav>
-    <ul>
-        <li><a href="/">Home</a></li>
-        <!--        <li><a href="/about">About</a></li>-->
-        <li><a href="/cv">CV</a></li>
-        <li><a href="/now">Now</a></li>
-        <!-- <li><a href="/blog">Blog</a></li> -->
-    </ul>
-</nav>
+<div style="display: flex; justify-content: space-between">
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <!--        <li><a href="/about">About</a></li>-->
+            <li><a href="/cv">CV</a></li>
+            <li><a href="/now">Now</a></li>
+            <!-- <li><a href="/links">Links</a></li> -->
+            <!-- <li><a href="/blog">Blog</a></li> -->
+        </ul>
+    </nav>
+    <span>
+        <span style="font-size: 80%">The blog of</span> Andrei Ciuculescu
+    </span>
+</div>
 
 {{ content }}
 
@@ -52,11 +62,13 @@
     <!--    </div>-->
     <h4>
         <span>Found a bug? You may
-            <a target="_blank" href="{{site.github.repository_url}}/edit/master/{{page.path}}">edit this page</a>
+            <a target="_blank"
+               href="{{site.github.repository_url}}/edit/master/{{page.path}}">edit this page</a>
             then send a PR.
         </span>
         <span>If you think I provided value to you, you may
-            <a target="_blank" href="https://www.patreon.com/DanTheLion" class="icoPatreon"
+            <a target="_blank" href="https://www.patreon.com/DanTheLion"
+               class="icoPatreon"
             >support my work on Patreon <i class="fa fa-patreon"></i></a>
         </span>
     </h4>
