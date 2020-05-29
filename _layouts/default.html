@@ -1,24 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <!--     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-141373699-1"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-
-            function gtag() {
-                dataLayer.push(arguments);
-            }
-
-            gtag('js', new Date());
-
-            gtag('config', 'UA-141373699-1', {'allow_ad_personalization_signals': false, 'anonymize_ip': true});
-        </script>
-     -->
     <title>{{ page.title }}</title>
     <link rel=icon href=/resources/anrei0000_logo.png>
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet"
@@ -29,37 +14,63 @@
     <link rel="stylesheet" type="text/css" href="/css/social.css">
 </head>
 <body>
-<div style="display: flex; justify-content: space-between">
-    <nav>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <!--        <li><a href="/about">About</a></li>-->
-            <li><a href="/cv">CV</a></li>
-            <li><a href="/now">Now</a></li>
-            <!-- <li><a href="/links">Links</a></li> -->
-            <!-- <li><a href="/blog">Blog</a></li> -->
-        </ul>
-    </nav>
-    <span>
-        <span style="font-size: 80%">The blog of</span> Andrei Ciuculescu
-    </span>
+<div class="top">
+    <div style="display: flex; justify-content: space-between">
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <!--        <li><a href="/about">About</a></li>-->
+                <li><a href="/cv">CV</a></li>
+                <li><a href="/now">Now</a></li>
+                <!-- <li><a href="/link s">Links</a></li> -->
+                <!-- <li><a href="/blog">Blog</a></li> -->
+            </ul>
+        </nav>
+        <span>
+            <span style="font-size: 80%">The blog of</span> Andrei Ciuculescu
+        </span>
+    </div>
 </div>
 
-{{ content }}
+<div class="content" style="display: flex;  flex-wrap: wrap; ">
+    <div class="content-inside" style="flex: 1 70%;">
+        {{ content }}
+    </div>
+    <div class="sidebar" style="flex: 1 10%; padding-top: 50px;">
+        
+        <div class="signup">
+            <!-- Begin Mailchimp Signup Form -->
+            <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
+            <style type="text/css">
+                #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
+                /* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
+                   We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+            </style>
+
+            <div id="mc_embed_signup">
+                <form action="https://imiasum.us16.list-manage.com/subscribe/post?u=d3580c2f137194281a157e2cd&amp;id=0c27242e38" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                    <div id="mc_embed_signup_scroll">
+                        <div class="mc-field-group">
+                            <label for="mce-EMAIL">Like my words? Get them delivered: </label>
+                            <input type="email" value="" placeholder="you@curious.person" name="EMAIL" class="required email" id="mce-EMAIL">
+                        </div>
+                        <div id="mce-responses" class="clear">
+                            <div class="response" id="mce-error-response" style="display:none"></div>
+                            <div class="response" id="mce-success-response" style="display:none"></div>
+                        </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d3580c2f137194281a157e2cd_0c27242e38" tabindex="-1" value=""></div>
+                        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="btn btn-light"></div>
+                    </div>
+                </form>
+            </div>
+            <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';fnames[3]='ADDRESS';ftypes[3]='address';fnames[4]='PHONE';ftypes[4]='phone';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+            <!--End mc_embed_signup-->
+        </div>
+
+    </div>
+</div>
 
 <footer>
-    <!--    <div class="container">-->
-    <!--        <div class="row">-->
-    <!--            <h4>Please share if you liked</h4>-->
-    <!--            <div>-->
-    <!--                <ul class="social-network social-circle">-->
-    <!--                    <li><a href="#" class="icoFacebook" title="Facebook"><i class="fa fa-facebook"></i></a></li>-->
-    <!--                    <li><a href="#" class="icoTwitter" title="Twitter"><i class="fa fa-twitter"></i></a></li>-->
-    <!--                    <li><a href="#" class="icoGoogle" title="Google +"><i class="fa fa-google-plus"></i></a></li>-->
-    <!--                </ul>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
     <h4>
         <span>Found a bug? You may
             <a target="_blank"

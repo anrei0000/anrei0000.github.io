@@ -1,7 +1,7 @@
 
 body {
     margin: 60px auto;
-    width: 60%;
+    width: 80%;
 }
 
 a {
@@ -14,10 +14,35 @@ a:hover {
 }
 
 p {
-    # font-size: 1.2em;
+    font-size: 1.2em;
     line-height: 1.4em;
     color: #333;
 }
+
+/*#footer {*/
+/*    position: relative;*/
+/*}*/
+
+/*#footer form input {*/
+/*    position: absolute;*/
+/*    left: 163px;*/
+/*}*/
+
+/*.mce_inline_error {*/
+/*    padding: 30px 0 0 228px;*/
+/*    position: absolute;*/
+/*    top: 91px;*/
+/*}*/
+
+/*.mce_inline_error {*/
+/*    left: -64px;*/
+/*}*/
+
+/*#mc-embedded-subscribe.btn {*/
+/*    position: absolute;*/
+/*    left: 310px;*/
+/*}*/
+
 
 p.small {
     font-style: italic;
@@ -88,22 +113,6 @@ ul.posts li {
 /* CV */
 .cv {
     margin: 0px 0px 60px;
-}
-
-.cv h1 {
-    font-size: 3em;
-}
-
-.cv h2 {
-    font-size: 2em;
-}
-
-.cv address, .cv .download {
-    font-family: 'Helvetica', 'Arial', 'Sans-Serif', serif;
-}
-
-.cv address, .cv p {
-    font-size: 1.2em;
 }
 
 .cv .download {
